@@ -7,7 +7,7 @@ Files:
 
 - main.py - function calls and main execution
 
-- util.py - paths, definitions and constants that are used throughout the code
+- util.py - paths, definitions, constants that are used throughout the code aswell as common functions (like read files etc)
 
 - test.ipynb - notebook used to test, write and evaluate funcions
 
