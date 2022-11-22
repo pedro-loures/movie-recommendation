@@ -1,4 +1,9 @@
 
+# TODO LIST
+#01 TODO data reader
+#02 TODO Divide test and train
+
+
 
 
 # Debug
@@ -11,3 +16,5 @@ TARGETS = "path\\to\\targets.jsonl"
 
 # Output paths 
 RECOMENDATION = "results\\recommendations.txt"
+
+

@@ -14,6 +14,8 @@ Files:
 - recommender - python spcripts with recommenders models
 	- trivial.py - trivial and trivial personalized reccomendation (only means)
 
+	- evaluate.py - functions aimed to evalutate the recommendation systems that were implementes
+
 
 Naming Convention: 
 
