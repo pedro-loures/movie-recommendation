@@ -32,67 +32,6 @@ RECOMENDATION = "results\\submission.csv"
 #data = ut.get_data(ut.RATINGS)
 
 
-# Read Ratings and return test and train dicts
-def read_ratings(test_size=0.33):
-    test_size += 0.01
-
-    with open(RATINGS, 'r') as json_file:
-        json_list = list(json_file)
-
-    # Test Dict
-    test_user_dict = {}
-    test_user_idx=0
-    test_item_dict = {}
-    test_item_idx=0
-    test_ratings_dict = {}
-    
-    # Train Dict
-    train_user_dict = {}
-    train_user_idx=0
-    train_item_dict = {}
-    train_ratings_dict = {}
-    train_item_idx=0
-
-    counter = 1
-    for json_str in json_list:
-        result = json.loads(json_str)
-        if (not isinstance(result, dict)):
-            continue
-        # print(counter, test_size, counter * test_size)
-        item_id = result['ItemId']
-        user_id = result['UserId']
-        rating  = result['Rating']
-        if counter * test_size > 1:
-            counter = 0
-            
-            if item_id not in test_item_dict: 
-                test_item_dict[item_id] = {'Idx':test_item_idx, 'Rating_sum':0, 'Users':[]}
-                test_item_idx += 1
-            test_item_dict[item_id]['Rating_sum'] += rating
-            test_item_dict[item_id]['Users'].append(user_id)
-            if user_id not in test_user_dict:
-                test_user_dict[user_id] = {'Idx':test_user_idx, 'Rating_sum':0, 'Items':[]}
-                test_user_idx += 1
-            test_user_dict[user_id]['Rating_sum'] += rating
-            test_user_dict[user_id]['Items'].append(item_id) 
-
-            test_ratings_dict[user_id + ':' + item_id] = {'Timestamp':result['Timestamp'], 'Rating':rating}
-        else:
-            counter += 1
-            if item_id not in train_item_dict: 
-                train_item_dict[item_id] = {'Idx':train_item_idx, 'Rating_sum':0, 'Users':[]}
-                train_item_idx += 1
-            train_item_dict[item_id]['Rating_sum'] += rating
-            train_item_dict[item_id]['Users'].append(user_id)
-            if user_id not in train_user_dict:
-                train_user_dict[user_id] = {'Idx':train_user_idx, 'Rating_sum':0, 'Items':[]}
-                train_user_idx += 1
-            train_user_dict[user_id]['Rating_sum'] += rating
-            train_user_dict[user_id]['Items'].append(item_id) 
-            train_ratings_dict[user_id + ':' + item_id] = {'Timestamp':result['Timestamp'], 'Rating':rating}
-
-    return [test_user_dict, test_item_dict, test_ratings_dict], [train_user_dict, train_item_dict, train_ratings_dict]
-
 
 
 def round_closest(x):

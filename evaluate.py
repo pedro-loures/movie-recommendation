@@ -34,7 +34,7 @@ def get_relevance(recomendation, expected):
   expected_dict = {}
   recomendation_dict = {}
 
-  # Create dict with user item and relevance
+  # Create dict with user item and true relevance
   user_relevance = {}
   for pair in expected:
     user, item = pair[:-1].split(':')
