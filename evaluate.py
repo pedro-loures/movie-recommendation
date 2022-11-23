@@ -5,6 +5,30 @@
 # External Imports
 import numpy as np
 from sklearn.metrics import ndcg_score
+from operator import itemgetter
+
+
+def test_to_recomendation(test):
+  test_user_dict, test_item_dict, test_ratings_dict = test
+  
+  ratings = []
+  for key in test_ratings_dict.keys():
+    ratings.append([key, test_ratings_dict[key]['Rating']] )
+    
+  ratings = sorted(ratings, key=itemgetter(1), reverse=True)
+  
+  user_dict = {}
+  for pair, rating in ratings:
+    user, item = pair.split(':')
+    if user not in user_dict: user_dict[user] = []
+    user_dict[user].append(item)
+  recomendations = []
+  for user in user_dict.keys():
+    [recomendations.append(user + ':' + item + '\n') for item in user_dict[user]]
+  
+  return recomendations
+
+
 
 def get_relevance(recomendation, expected):
   expected_dict = {}
@@ -48,5 +72,3 @@ def discount_cumulative_gain(recomendation, expected):
   true_relevance, expected_relevance = get_relevance(recomendation, expected)
   
   return ndcg_score(np.array([true_relevance]), np.array([expected_relevance]))
-
-discount_cumulative_gain(recomendation, test_recomendation)
