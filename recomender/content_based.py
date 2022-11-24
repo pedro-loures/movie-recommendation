@@ -4,7 +4,7 @@
 
 
 # Local Import
-import util as ut
+import scripts.util as ut
 
 # External Import
 from operator import itemgetter
@@ -50,7 +50,7 @@ def genre_prediction(train, targets, content_dict):
 
   predictions = []
   for pair in targets:
-    _tuser, _titem = pair.split(':')
+    _tuser, _titem = pair.split(',')
     dif_item_mean = 0
     dif_rating = 0
     weight = 1
@@ -85,7 +85,8 @@ def genre_recomendation(train, targets, content_dict):
   with open(ut.RECOMENDATION, 'w') as recomendation_file:
     recomendations = []
     for user in recomend_dict.keys():
-      [recomendations.append(user + ',' + item + '\n') for item in recomend_dict[user]]
+      # [recomendations.append(user + ',' + item + '\n') for item in recomend_dict[user]]
+      [recomendations.append(user + ',' + item) for item in recomend_dict[user]]
   
     recomendation_file.writelines('UserId,ItemId\n')
     recomendation_file.writelines(recomendations)

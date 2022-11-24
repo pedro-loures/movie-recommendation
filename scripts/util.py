@@ -33,7 +33,7 @@ RECOMENDATION = "results\\submission.csv"
 
 # Read content and return a film dict
 def read_content():
-    with open(ut.CONTENT, 'r') as json_file:
+    with open(CONTENT, 'r') as json_file:
         json_list = list(json_file)
 
 
@@ -107,6 +107,14 @@ def read_ratings(test_size=0.33, sample=1):
 
     return [test_user_dict, test_item_dict, test_ratings_dict], [train_user_dict, train_item_dict, train_ratings_dict]
 
+
+def create_user_dict(target):
+  user_dict = {}
+  for pair in target:
+    user, item = pair.split(',')
+    if user not in user_dict: user_dict[user] = []
+    user_dict[user].append(item)
+  return user_dict
 
 
 def round_closest(x):

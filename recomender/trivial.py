@@ -4,7 +4,7 @@
 
 
 # Local Import
-import util as ut
+import scripts.util as ut
 
 # External Import
 from operator import itemgetter
