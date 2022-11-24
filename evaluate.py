@@ -24,7 +24,7 @@ def test_to_recomendation(test):
     user_dict[user].append(item)
   recomendations = []
   for user in user_dict.keys():
-    [recomendations.append(user + ':' + item + '\n') for item in user_dict[user]]
+    [recomendations.append(user + ',' + item + '\n') for item in user_dict[user]]
   
   return recomendations
 
@@ -37,7 +37,7 @@ def get_relevance(recomendation, expected):
   # Create dict with user item and true relevance
   user_relevance = {}
   for pair in expected:
-    user, item = pair[:-1].split(':')
+    user, item = pair[:-1].split(',')
     if user not in expected_dict: 
       expected_dict[user] = []
       user_relevance[user] = 0
@@ -48,7 +48,7 @@ def get_relevance(recomendation, expected):
   user_relevance = {}
   for pair in recomendation:
     pair = pair[:-1]
-    user, item = pair.split(':')
+    user, item = pair.split(',')
     if user not in user_relevance: user_relevance[user] = 0
     user_relevance[user] += 1
     
@@ -61,7 +61,7 @@ def get_relevance(recomendation, expected):
     for item_relevance in expected_dict[user]:
       item, relevance = item_relevance
       true_relevance.append(relevance)
-      expected_relevance.append(recomendation_dict[user + ':' + item])      
+      expected_relevance.append(recomendation_dict[user + ',' + item])      
 
 
 

@@ -62,6 +62,7 @@ def trivial_personalized_prediction(train, targets):
     predictions.append([_tuser, _titem, prediction])
   
   predictions = sorted(predictions, key=itemgetter(2), reverse=True)  
+  prediction = sorted(predictions, key=itemgetter(0), reverse=True)
   return predictions
 
 
@@ -79,8 +80,8 @@ def trivial_recomendation(train, targets, user_mean=False):
   with open(ut.RECOMENDATION, 'w') as recomendation_file:
     recomendations = []
     for user in recomend_dict.keys():
-      [recomendations.append(user + ':' + item + '\n') for item in recomend_dict[user]]
+      [recomendations.append(user + ',' + item + '\n') for item in recomend_dict[user]]
   
-    recomendation_file.writelines('UserId:ItemId\n')
+    recomendation_file.writelines('UserId,ItemId\n')
     recomendation_file.writelines(recomendations)
   return recomendations
