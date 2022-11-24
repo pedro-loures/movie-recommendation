@@ -62,7 +62,7 @@ def trivial_personalized_prediction(train, targets):
     predictions.append([_tuser, _titem, prediction])
   
   predictions = sorted(predictions, key=itemgetter(2), reverse=True)  
-  prediction = sorted(predictions, key=itemgetter(0), reverse=True)
+  predictions = sorted(predictions, key=itemgetter(0), reverse=False)
   return predictions
 
 
