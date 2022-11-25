@@ -1,7 +1,8 @@
 # TODO List
 #01 OK separate movies by genres
 #02 OK get rating for each movide based on genre
-
+#02.1 TODO debug 
+#03 OK Create other reccomendation  by genre
 
 # Local Import
 import scripts.util as ut
@@ -9,6 +10,44 @@ import scripts.util as ut
 # External Import
 from operator import itemgetter
 
+
+def make_user_genre_dict(target, user_genre_dict, content_dict):
+  user_dict = {}
+  for pair in target:
+    count_genres = 0
+    user, item = pair.split(',')
+    if user not in user_dict: user_dict[user] = []
+    genres = content_dict[item]['Genre'].split(', ')
+    for genre in genres:
+      # print(count_genres, genre, user_genre_dict[user].keys())
+      if user in user_genre_dict: 
+        count_genres += int(genre in user_genre_dict[user])
+    user_dict[user].append([item,count_genres])
+    user_dict[user] = sorted(user_dict[user], key=itemgetter(1), reverse=True)
+  return user_dict
+
+  
+def make_recomendation_from_dict(dictionary):
+  recomendations = []
+  for user in dictionary:
+
+    for item, importance in dictionary[user]:
+       recomendations.append([user,item])
+
+  with open(ut.RECOMENDATION, 'w') as recomendation_file:
+
+    recomendation_file.writelines('UserId,ItemId\n')
+    recomendation_file.writelines([value[0] +','+ value[1] + '\n' for value in recomendations])
+  return recomendations
+
+######################################
+
+def make_movie_content_list(dictionary, key='imdbVotes', treat_coomma=False):
+  movie_popularity = [[movie, dictionary[movie][key]] for movie in dictionary.keys() if dictionary[movie][key] != 'N/A' ]
+
+  if treat_coomma: movie_popularity= [[item[0],int(item[1].replace(',',''))] for item in movie_popularity]
+  movie_popularity = sorted(movie_popularity, key=itemgetter(1), reverse=True)
+  return movie_popularity
 
 def make_genre_dict(train_user_dict, content_dict):  
   genre_dict = {}
