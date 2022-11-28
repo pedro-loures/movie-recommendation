@@ -20,12 +20,6 @@ from operator import itemgetter
 #   return user_dict
 
 
-def make_movie_content_list(dictionary, key='imdbVotes', treat_coomma=False):
-  movie_popularity = [[movie, dictionary[movie][key]] for movie in dictionary.keys() if dictionary[movie][key] != 'N/A' ]
-
-  if treat_coomma: movie_popularity= [[item[0],int(item[1].replace(',',''))] for item in movie_popularity]
-  movie_popularity = sorted(movie_popularity, key=itemgetter(1), reverse=True)
-  return movie_popularity
 
 
 def make_popularity_list(dictionary, key='Users'):

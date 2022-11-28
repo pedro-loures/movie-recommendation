@@ -22,7 +22,7 @@ def make_user_genre_dict(target, user_genre_dict, content_dict):
       # print(count_genres, genre, user_genre_dict[user].keys())
       if user in user_genre_dict: 
         count_genres += int(genre in user_genre_dict[user])
-    user_dict[user].append([item,count_genres])
+    user_dict[user].append([item,count_genres/len(genres)])
     user_dict[user] = sorted(user_dict[user], key=itemgetter(1), reverse=True)
   return user_dict
 
@@ -47,6 +47,12 @@ def make_movie_content_list(dictionary, key='imdbVotes', treat_coomma=False):
 
   if treat_coomma: movie_popularity= [[item[0],int(item[1].replace(',',''))] for item in movie_popularity]
   movie_popularity = sorted(movie_popularity, key=itemgetter(1), reverse=True)
+  
+  if treat_coomma:
+    max_vote = max([value[1] for value in movie_popularity])
+    for idx, movie_vote in enumerate(movie_popularity):
+      movie_popularity[idx][1] = movie_vote[1] / max_vote
+
   return movie_popularity
 
 def make_genre_dict(train_user_dict, content_dict):  
