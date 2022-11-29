@@ -1,37 +1,33 @@
-# TODO LIST
-#01 TODO read json
-#02 TODO default output
 
 # Local Imports 
-import util as ut
-import recommender.trivial as triv
+import scripts.util as ut
+import recomender.content_based as cbased
+import recomender.ensamble as ensamble
 
 # External Imports
-import json
+import sys
 
-import numpy as np
-import pandas as pd
-import json
-import os
-import math
 
-from surprise.prediction_algorithms.matrix_factorization import SVD
-from surprise.model_selection import train_test_split
-from surprise import accuracy,Dataset, Reader
-from surprise.model_selection import GridSearchCV
+program, ratings, contents, target_file = sys.argv
 
-from util import round_closest,get_data,get_best_params,build_final_predictions
+# Read Targets
+with open(target_file, 'r') as targets_file:
+  targets_file.readline()
+  targets = targets_file.readlines()
 
-data,trainset,testset = get_data("ratings.jsonl")
-model = SVD()
+targets = [target[:-1] for target in targets]
 
-#params = get_best_params(data,model)
+# Read Content
+content_dict = ut.read_content(contents)
 
-algo = SVD()#(n_epochs = params.n_epochs,n_factors = params.n_factors,lr_all = params.lr_all,reg_all = params.reg_all)
+# Separate test and train
+test, train = ut.read_ratings(ratings, test_size=0)
 
-algo.fit(trainset)
-predictions = algo.test(testset)
+# put test in the same recomendation format
+test_recomendation = eval.test_to_recomendation(test)
 
-#print(accuracy.rmse(predictions))
+# Run Ensamble and return dict
+ensamble_recommend_dict = ensamble.ensamble1(train, targets, content_dict, vote_strengh=50)
 
-build_final_predictions("targets.csv")
+# Make recomendation from dict
+recomendation = cbased.make_recomendation_from_dict(ensamble_recommend_dict)
